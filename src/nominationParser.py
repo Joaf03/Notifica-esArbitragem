@@ -55,4 +55,4 @@ def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, árb
 
     return no_referee_games
 
-print(parse_nominations(pdfContent))
+# print(parse_nominations(pdfContent))
