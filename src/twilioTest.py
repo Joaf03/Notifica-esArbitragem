@@ -24,21 +24,23 @@ def pretty_print_games(games):
     return return_text
 
 
-load_dotenv()
+# load_dotenv()
 
-account_sid = os.getenv("ACCOUNT_SID")
-auth_token = os.getenv("AUTH_TOKEN")
-twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
-personal_phone_number = os.getenv("PERSONAL_PHONE_NUMBER")
+# account_sid = os.getenv("ACCOUNT_SID")
+# auth_token = os.getenv("AUTH_TOKEN")
+# twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
+# personal_phone_number = os.getenv("PERSONAL_PHONE_NUMBER")
 
-client = Client(account_sid, auth_token)
+# client = Client(account_sid, auth_token)
 
 games = parse_nominations(pdfContent)
 
-call = client.calls.create(
-    to=personal_phone_number,
-    from_=twilio_phone_number,
-    twiml=f'<Response><Say language="pt-PT">{pretty_print_games(games)}</Say></Response>'
-)
+# call = client.calls.create(
+#     to=personal_phone_number,
+#     from_=twilio_phone_number,
+#     twiml=f'<Response><Say language="pt-PT">{pretty_print_games(games)}</Say></Response>'
+# )
 
-print(call.sid)
+# print(call.sid)
+
+print(pretty_print_games(games))

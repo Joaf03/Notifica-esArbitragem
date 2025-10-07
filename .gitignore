@@ -2,3 +2,4 @@
 **/__pycache__/
 Nomeacoes*
 .env
+/src/WhatsappBot/node_modules

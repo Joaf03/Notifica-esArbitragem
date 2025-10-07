@@ -1,4 +1,3 @@
-from pdfExtractor import allText as pdfContent
 from enum import Enum
 import re
 
@@ -14,6 +13,8 @@ class Dates(Enum):
 
 def parse_nominations(info):
     no_referee_games = []
+    data_atual = "Data desconhecida"
+
     for line in info.split('\n'):
         line = line.strip()
 
@@ -31,11 +32,12 @@ def parse_nominations(info):
             hora = f'{match.group(3)}:{match.group(4)}'
             equipas_e_pavilhão = match.group(5).strip()
             árbitros = match.group(7).strip()
+
+            build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, árbitros, no_referee_games)
         
         if "SUB" not in line or not match:
             return ValueError("Error while parsing PDF")
-        
-        build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, árbitros, no_referee_games)
+    
 
     return no_referee_games
         
