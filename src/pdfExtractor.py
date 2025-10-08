@@ -7,4 +7,4 @@ def extract_pdf_text(filename):
             all_text += page.extract_text()
     return all_text
 
-allText = extract_pdf_text("../data/Nomeacoes_02a09Out.pdf")
+# allText = extract_pdf_text("../data/Nomeacoes_02a09Out.pdf")

@@ -1,8 +1,8 @@
 from twilio.rest import Client
 from dotenv import load_dotenv
-import os
+import os, sys
 from nominationParser import parse_nominations
-from pdfExtractor import allText as pdfContent
+from pdfExtractor import extract_pdf_text
 
 def pretty_print_games(games):
     return_text = ""
@@ -24,23 +24,36 @@ def pretty_print_games(games):
     return return_text
 
 
-# load_dotenv()
+load_dotenv()
 
-# account_sid = os.getenv("ACCOUNT_SID")
-# auth_token = os.getenv("AUTH_TOKEN")
-# twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
-# personal_phone_number = os.getenv("PERSONAL_PHONE_NUMBER")
+account_sid = os.getenv("ACCOUNT_SID")
+auth_token = os.getenv("AUTH_TOKEN")
+twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
+personal_phone_number = os.getenv("PERSONAL_PHONE_NUMBER")
 
-# client = Client(account_sid, auth_token)
+if not all([account_sid, auth_token, twilio_phone_number, personal_phone_number]):
+    raise ValueError("Missing required environment variables")
+
+assert account_sid is not None
+assert auth_token is not None
+assert twilio_phone_number is not None
+assert personal_phone_number is not None
+
+client = Client(account_sid, auth_token)
+
+if len(sys.argv) == 2:
+    pdfContent = extract_pdf_text(sys.argv[1])
+else:
+    raise ValueError("Wrong number of arguments, 1 needed (pdf)")
 
 games = parse_nominations(pdfContent)
 
-# call = client.calls.create(
-#     to=personal_phone_number,
-#     from_=twilio_phone_number,
-#     twiml=f'<Response><Say language="pt-PT">{pretty_print_games(games)}</Say></Response>'
-# )
+call = client.calls.create(
+    to=personal_phone_number,
+    from_=twilio_phone_number,
+    twiml=f'<Response><Say language="pt-PT">{pretty_print_games(games)}</Say></Response>'
+)
 
-# print(call.sid)
+print(call.sid)
 
-print(pretty_print_games(games))
+# print(pretty_print_games(games))
