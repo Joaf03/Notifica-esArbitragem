@@ -27,9 +27,10 @@ def pretty_print_games(games):
 load_dotenv()
 
 account_sid = os.getenv("ACCOUNT_SID")
-auth_token = os.getenv("AUTH_TOKEN")
+auth_token = os.getenv("TWILIO_AUTH_TOKEN")
 twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
 personal_phone_number = os.getenv("PERSONAL_PHONE_NUMBER")
+ngrok_url = os.getenv("NGROK_URL")
 
 if not all([account_sid, auth_token, twilio_phone_number, personal_phone_number]):
     raise ValueError("Missing required environment variables")
@@ -48,10 +49,15 @@ else:
 
 games = parse_nominations(pdfContent)
 
+twiml = f"""<Response>
+                <Gather numDigits="1" action="{ngrok_url}/manage-call" method="POST">
+                    <Say language="pt-PT">Funciona</Say>
+                </Gather>    
+            </Response>"""
 call = client.calls.create(
     to=personal_phone_number,
     from_=twilio_phone_number,
-    twiml=f'<Response><Say language="pt-PT">{pretty_print_games(games)}</Say></Response>'
+    twiml=twiml
 )
 
 print(call.sid)

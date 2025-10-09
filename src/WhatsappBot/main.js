@@ -8,14 +8,15 @@ const { Client, LocalAuth } = wwebjs;
 const client = new Client({
     authStrategy: new LocalAuth({
         clientId: "bot_nomeacoes",
+        dataPath: "./.wwebjs_auth"
     })
 });
 
 client.once('ready', () => {
     console.log("Client is ready.");
 }) 
-
-client.on('qr', qr => {
+ 
+client.on('qr', qr => { 
     qrcode.generate(qr, {small: true})
 })
  
