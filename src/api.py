@@ -53,7 +53,7 @@ def handle_response(index: int, Digits: str = Form(...)):
         raise ValueError("Failed importing games from twilioTest.py")
     print(Digits)
     if Digits == "0":
-        message = "Jogo rejeitado. Próximo jogo..."
+        message = "Jogo rejeitado."
         new_index = index+1
     
     elif Digits == "1":
@@ -61,7 +61,7 @@ def handle_response(index: int, Digits: str = Form(...)):
             "game": games[index]
         })
 
-        message = "Jogo aceite. Próximo jogo..."
+        message = "Jogo aceite."
         new_index = index+1
         
     else:

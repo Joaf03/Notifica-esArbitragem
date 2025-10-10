@@ -53,11 +53,15 @@ if __name__ == "__main__":
 
     games = parse_nominations(pdfContent)
 
-    with open("games.json", "w") as f:
-        json.dump(games, f, ensure_ascii=False, indent=2)
-
     if not isinstance(games, list):
         raise ValueError("Failed to parse games from PDF")
+
+    if len(games) == 0:
+        print("No games found, exiting...")
+        sys.exit(0)
+
+    with open("games.json", "w") as f:
+        json.dump(games, f, ensure_ascii=False, indent=2)
 
     twiml = f"""<Response>
                     <Say language="pt-PT">{

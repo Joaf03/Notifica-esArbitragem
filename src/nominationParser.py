@@ -33,27 +33,30 @@ def parse_nominations(info):
             equipas_e_pavilhão = match.group(5).strip()
             árbitros = match.group(7).strip()
 
-            build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, árbitros, no_referee_games)
+            if not árbitros:
+                build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games)
         
         if "SUB" not in line or not match:
             return ValueError("Error while parsing PDF")
-    
 
     return no_referee_games
         
 
-def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, árbitros, no_referee_games):
+def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games):
 
-    if not árbitros:
-            game = {
-                "data": data_atual,
-                "hora": hora,
-                "escalão": escalão,
-                "equipas_e_pavilhão": equipas_e_pavilhão,
-                "árbitros": árbitros
-            }
+    invalid_pavillions = ["MUN BARCELOS", "PAV GOLADAS", "PAV TILIAS"]
 
-            no_referee_games.append(game)
+    if any(pavillion in equipas_e_pavilhão for pavillion in invalid_pavillions):
+        return
+
+    game = {
+        "data": data_atual,
+        "hora": hora,
+        "escalão": escalão,
+        "equipas_e_pavilhão": equipas_e_pavilhão,
+    }
+
+    no_referee_games.append(game)
 
     return no_referee_games
 
