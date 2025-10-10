@@ -52,11 +52,12 @@ const app = express();
 app.use(express.json())
 
 function createGreeting() {
-    const date = Date();
+    const date = new Date();
+    const hour = date.getHours();
     let greeting = "";
 
-    if (date < 12) greeting = "Bom dia.";
-    else if (date < 20) greeting = "Boa tarde.";
+    if (hour < 12) greeting = "Bom dia.";
+    else if (hour < 20) greeting = "Boa tarde.";
     else greeting = "Boa noite.";
     
     return greeting;

@@ -5,3 +5,4 @@ Nomeacoes*
 /src/WhatsappBot/node_modules
 /src/WhatsappBot/.wwebjs_cache
 /src/WhatsappBot/.wwebjs_auth
+/src/WhatsappBot/games.json
