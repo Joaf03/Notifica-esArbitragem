@@ -3,10 +3,15 @@ import qrcode from "qrcode-terminal"
 import fs from "fs"
 import { exec } from "child_process"
 import express from "express"
+import path from "path"
 
 const { Client, LocalAuth } = wwebjs;
 
 const client = new Client({
+    puppeteer: {
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    },
     authStrategy: new LocalAuth({
         clientId: "bot_nomeacoes",
         dataPath: "./.wwebjs_auth"
@@ -29,14 +34,23 @@ client.on('message_create', async message => {
 
         if (media && media.mimetype == "application/pdf") {
 
-            fs.writeFileSync(media.filename, media.data, { encoding: 'base64' });
-            console.log(`PDF recebido e guardado: ${media.filename}`);
+	    const pdf_path = path.join("/home/joao/RefereeNotifications/src/WhatsappBot", media.filename);
+            fs.writeFileSync(pdf_path, media.data, { encoding: 'base64' });
+            console.log(`PDF recebido e guardado: ${pdf_path}`);
 
-            exec(`python3 ../twilioTest.py ${media.filename}`, (error) => {
+            exec(`python3 /home/joao/RefereeNotifications/src/twilioTest.py ${pdf_path}`, { cwd: "/home/joao/RefereeNotifications/src" }, (error, stdout, stderr) => {
                 if (error) {
                     console.error(`Error when running Python Twilio script: ${error.message}`);
                     return;
-                }                
+                }
+                if (stdout) {
+                    console.log('Python output:', stdout);
+                }
+                
+                // Print Python stderr to Node.js console  
+                if (stderr) {
+                    console.error('Python errors:', stderr);
+    }              
             });
         }
     }
@@ -56,9 +70,9 @@ function createGreeting() {
     const hour = date.getHours();
     let greeting = "";
 
-    if (hour < 12) greeting = "Bom dia.";
-    else if (hour < 20) greeting = "Boa tarde.";
-    else greeting = "Boa noite.";
+    if (hour < 12) greeting = "Bom dia";
+    else if (hour < 20) greeting = "Boa tarde";
+    else greeting = "Boa noite";
     
     return greeting;
 }
@@ -77,11 +91,10 @@ app.post("/send-message", async (req, res) => {
     const body = req.body;
     try {
         const greeting = createGreeting();
-        await client.sendMessage("351911841631@c.us", greeting);
-        console.log("GREETING SENT");
+        await client.sendMessage("120363279952337413@g.us", greeting);
 
         const message = createMessage(body.game);
-        await client.sendMessage("351911841631@c.us", message);
+        await client.sendMessage("120363279952337413@g.us", message);
         res.sendStatus(200);
     } catch (err) {
         console.error("Erro ao enviar mensagem:", err);

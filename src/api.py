@@ -5,14 +5,18 @@ import requests, os, json
 ordinal_values = ["Primeiro jogo: ", "Segundo jogo: ", "Terceiro jogo: ", "Quarto jogo: ", "Quinto jogo: ",
                       "Sexto jogo: ", "Sétimo jogo: ", "Oitavo jogo: ", "Nono jogo: ", "Décimo jogo: "]
 
+
 app = FastAPI()
 
 def load_games():
-    if not os.path.exists("games.json"):
-        return []
-    with open("games.json", "r") as f:
-        return json.load(f)
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    games_file = os.path.join(base_path, "games.json")
 
+    if not os.path.exists(games_file):
+        return []
+
+    with open(games_file, "r", encoding="utf-8") as f:
+        return json.load(f)
 @app.get("/health")
 def health():
     return "API active."
@@ -51,13 +55,13 @@ def handle_response(index: int, Digits: str = Form(...)):
 
     if not isinstance(games, list):
         raise ValueError("Failed importing games from twilioTest.py")
-    print(Digits)
+
     if Digits == "0":
         message = "Jogo rejeitado."
         new_index = index+1
     
     elif Digits == "1":
-        requests.post("http://localhost:3000/send-message", json = {
+        requests.post("http://77.237.242.67:3000/send-message", json = {
             "game": games[index]
         })
 

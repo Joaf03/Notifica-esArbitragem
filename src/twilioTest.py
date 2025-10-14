@@ -23,7 +23,8 @@ from pdfExtractor import extract_pdf_text
 
 #     return return_text
 
-
+print("CWtwilD:", os.getcwd())
+print("Script path:", os.path.abspath(__file__))
 load_dotenv()
 
 account_sid = os.getenv("ACCOUNT_SID")
@@ -63,12 +64,14 @@ if __name__ == "__main__":
     with open("games.json", "w") as f:
         json.dump(games, f, ensure_ascii=False, indent=2)
 
+    VPS_IP = "http://77.237.242.67:8000"
+
     twiml = f"""<Response>
                     <Say language="pt-PT">{
                         f'Existe 1 jogo sem árbitro' if len(games) == 1 
                         else f'Existem {len(games)} jogos sem árbitro'
                     }</Say>
-                    <Redirect method="POST">{ngrok_url}/game/0</Redirect>
+                    <Redirect method="POST">{VPS_IP}/game/0</Redirect>
                     <Hangup/>
                 </Response>"""
     call = client.calls.create(
