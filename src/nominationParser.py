@@ -45,10 +45,7 @@ def parse_nominations(info):
 def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games):
 
     invalid_pavillions = ["MUN BARCELOS", "PAV GOLADAS", "PAV TILIAS", "VIANA DO CASTELO"]
-    # print(f"equipas_e_pavilhão: '{equipas_e_pavilhão}'")
-    # for pavillion in invalid_pavillions:
-    #     is_inside = pavillion in equipas_e_pavilhão
-    #     print(f"'{pavillion}' in equipas_e_pavilhão: {is_inside}")
+
     if any(pavillion.lower() in equipas_e_pavilhão.lower() for pavillion in invalid_pavillions):
         return
 
@@ -62,5 +59,3 @@ def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_r
     no_referee_games.append(game)
 
     return no_referee_games
-
-# print(parse_nominations(pdfContent))

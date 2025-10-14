@@ -6,5 +6,3 @@ def extract_pdf_text(filename):
         for page in pdf.pages:
             all_text += page.extract_text()
     return all_text
-
-# allText = extract_pdf_text("../data/Nomeacoes_02a09Out-1.pdf")
