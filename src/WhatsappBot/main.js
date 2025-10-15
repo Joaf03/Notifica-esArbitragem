@@ -46,7 +46,8 @@ client.on('message_create', async message => {
                 if (stdout) {
                     console.log('Python output:', stdout);
                 }
-
+                
+                // Print Python stderr to Node.js console  
                 if (stderr) {
                     console.error('Python errors:', stderr);
     }              
