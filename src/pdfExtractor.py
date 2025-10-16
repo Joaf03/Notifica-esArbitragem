@@ -1,6 +1,6 @@
 import pdfplumber
 
-def extract_pdf_text(filename):
+def extractPdfText(filename):
     with pdfplumber.open(filename) as pdf:
         all_text = ""
         for page in pdf.pages:

@@ -11,7 +11,7 @@ class Dates(Enum):
     DOMINGO = "domingo"
 
 
-def parse_nominations(info):
+def parseNominations(info):
     no_referee_games = []
     data_atual = "Data desconhecida"
 
@@ -25,24 +25,24 @@ def parse_nominations(info):
             data_atual = line
             continue
 
-        match = re.search(r'(SUB\d{2})\s(\d{1,3})\s(\d{1,2}):(\d{2})\s(.*(?=\d{1,2}))(\d{1,2})(.*)', line)
+        match = re.search(r'(SUB\d{2})\s(\d{1,4})\s(\d{1,2}):(\d{2})\s(.*(?=\d{1,2}))(\d{1,2})(.*)', line)
 
         if match:
             escalão = match.group(1).strip()
             hora = f'{match.group(3)}:{match.group(4)}'
             equipas_e_pavilhão = match.group(5).strip()
             árbitros = match.group(7).strip()
-
-            if not árbitros:
-                build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games)
         
+            if not árbitros:
+                buildNoRefereeGames(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games)
+
         if "SUB" not in line or not match:
             return ValueError("Error while parsing PDF")
 
     return no_referee_games
         
 
-def build_no_referee_games(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games):
+def buildNoRefereeGames(data_atual, escalão, hora, equipas_e_pavilhão, no_referee_games):
 
     invalid_pavillions = ["MUN BARCELOS", "PAV GOLADAS", "PAV TILIAS", "VIANA DO CASTELO"]
 

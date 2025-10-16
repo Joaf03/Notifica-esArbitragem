@@ -8,7 +8,7 @@ ordinal_values = ["Primeiro jogo: ", "Segundo jogo: ", "Terceiro jogo: ", "Quart
 
 app = FastAPI()
 
-def load_games():
+def loadGames():
     base_path = os.path.dirname(os.path.abspath(__file__))
     games_file = os.path.join(base_path, "games.json")
 
@@ -17,13 +17,14 @@ def load_games():
 
     with open(games_file, "r", encoding="utf-8") as f:
         return json.load(f)
+        
 @app.get("/health")
 def health():
     return "API active."
 
 @app.post("/game/{index}")
-def handle_game(index: int):    
-    games = load_games()
+def handleGame(index: int):    
+    games = loadGames()
 
     if not isinstance(games, list):
         raise ValueError("Failed importing games from twilioTest.py")
@@ -50,8 +51,8 @@ def handle_game(index: int):
     return Response(twiml, media_type="application/xml")
 
 @app.post("/response/{index}")
-def handle_response(index: int, Digits: str = Form(...)):
-    games = load_games()
+def handleResponse(index: int, Digits: str = Form(...)):
+    games = loadGames()
 
     if not isinstance(games, list):
         raise ValueError("Failed importing games from twilioTest.py")

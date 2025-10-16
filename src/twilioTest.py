@@ -1,8 +1,8 @@
 from twilio.rest import Client
 from dotenv import load_dotenv
 import os, sys, json
-from nominationParser import parse_nominations
-from pdfExtractor import extract_pdf_text
+from nominationParser import parseNominations
+from pdfExtractor import extractPdfText
 
 load_dotenv()
 
@@ -25,11 +25,11 @@ client = Client(account_sid, auth_token)
 if __name__ == "__main__":
 
     if len(sys.argv) == 2:
-        pdfContent = extract_pdf_text(sys.argv[1])
+        pdfContent = extractPdfText(sys.argv[1])
     else:
         raise ValueError("Wrong number of arguments, 1 needed (pdf)")
 
-    games = parse_nominations(pdfContent)
+    games = parseNominations(pdfContent)
 
     if not isinstance(games, list):
         raise ValueError("Failed to parse games from PDF")

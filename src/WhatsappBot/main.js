@@ -89,12 +89,14 @@ function createMessage(game) {
 
 app.post("/send-message", async (req, res) => {
     const body = req.body;
+    // const referee_group_chatId = "120363279952337413@g.us";
+    const andre_id = "351911841631@c.us";
     try {
         const greeting = createGreeting();
-        await client.sendMessage("120363279952337413@g.us", greeting);
+        await client.sendMessage(andre_id, greeting);
 
         const message = createMessage(body.game);
-        await client.sendMessage("120363279952337413@g.us", message);
+        await client.sendMessage(andre_id, message);
         res.sendStatus(200);
     } catch (err) {
         console.error("Erro ao enviar mensagem:", err);
